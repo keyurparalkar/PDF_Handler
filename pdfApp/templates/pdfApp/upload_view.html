@@ -1,0 +1,6 @@
+<h1> form upload view </h1>
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit"> Upload </button>
+</form>
