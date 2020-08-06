@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.views.generic.edit import FormView
 from .forms import FileUploadform
 
@@ -10,30 +10,19 @@ def file_upload(request):
         if form.is_valid():
 
             form_data = request.FILES.getlist('file')
-
+            data_chunks = b''
             with open('op.pdf', 'wb+') as f:
                 for file in form_data:
                     for data in file.chunks():
                         f.write(data)
+                        data_chunks += data
+            data_chunks = HttpResponse(data_chunks, content_type='application/pdf')
+            data_chunks['Content-Disposition'] = 'filename=op_test.pdf'
 
-            return HttpResponseRedirect('')
+            return render(request, 'pdfApp/upload_view.html',{'form':form,'data_chunks': data_chunks})
     else:
         form = FileUploadform()
+        if('data_chunks' in globals()):
+            del globals()['data_chunks']
+
         return render(request, 'pdfApp/upload_view.html',{'form':form})
-
-#Class to handle multiple file uploads:
-# class file_upload(FormView):
-#     form_class = FileUploadform
-#     template_name = 'pdfApp/upload_view.html'
-#     success_url = ''
-
-#     def post(self, request, *args, **kwargs):
-#         form_class = self.get_form_class()
-#         form = self.get_form(form_class)
-#         files = request.FILES.getlist('file_field')
-#         if form.is_valid():
-#             for f in files:
-#                 print(f)
-#                 return self.form_valid(form)
-#         else:
-#             return self.form_invalid(form)

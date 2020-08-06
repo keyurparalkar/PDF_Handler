@@ -3,4 +3,8 @@
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit"> Upload </button>
+    {% if data_chunks %}
+        {{ data_chunks }}
+        <button>Download</button>
+    {% endif %}
 </form>
