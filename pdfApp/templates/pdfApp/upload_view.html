@@ -2,9 +2,9 @@
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit"> Upload </button>
-    {% if data_chunks %}
-        {{ data_chunks }}
-        <button>Download</button>
-    {% endif %}
+    <button type="submit"> Upload </button>  
 </form>
+{% if data_chunks %}
+{{ data_chunks }}
+<button href="{% url 'file_download' %}">Download</button>
+{% endif %}
