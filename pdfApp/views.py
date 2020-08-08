@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.views.generic.edit import FormView
 from .forms import FileUploadform
+import json
+import ast
 
 # Create your views here.
 def file_upload(request):
@@ -14,12 +16,10 @@ def file_upload(request):
             with open('op.pdf', 'wb+') as f:
                 for file in form_data:
                     for data in file.chunks():
-                        f.write(data)
                         data_chunks += data
-            # data_chunks = HttpResponse(data_chunks, content_type='application/pdf')
-            # data_chunks['Content-Disposition'] = 'filename=op_test.pdf'
             
-            request.session['data_chunks'] = data_chunks
+            # print(f'Data = {base64.b64decode(data_chunks)}')
+            request.session['data_chunks'] = json.dumps(str(data_chunks))
 
             return render(request, 'pdfApp/upload_view.html',{'form':form,'data_chunks': data_chunks})
             # return data_chunks
@@ -31,8 +31,7 @@ def file_upload(request):
         return render(request, 'pdfApp/upload_view.html',{'form':form})
 
 def file_download(request):
-    data = request.session['data_chunks']
+    data = ast.literal_eval(json.loads(request.session['data_chunks']))
     data = HttpResponse(data, content_type='application/pdf')
     data['Content-Disposition'] = 'filename=op_test.pdf'
-    
-    return data
+    return data 

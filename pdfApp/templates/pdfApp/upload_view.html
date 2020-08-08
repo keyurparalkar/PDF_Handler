@@ -5,6 +5,5 @@
     <button type="submit"> Upload </button>  
 </form>
 {% if data_chunks %}
-{{ data_chunks }}
-<button href="{% url 'file_download' %}">Download</button>
+<button onclick="location.href={% url "file_download" %}" href="_">Download</button>
 {% endif %}
