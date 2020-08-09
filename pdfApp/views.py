@@ -46,9 +46,10 @@ def file_download(request):
     MergePDFs()
 
     pdf = None
-    f = open('../test.pdf')
-    pdf = File(f)
+    f = open('../test.pdf','rb')
+    pdf = f.read()
 
+    print("PDF========================================== ",type(pdf))
     # data = ast.literal_eval(json.loads(request.session['data_chunks']))
     data = HttpResponse(pdf, content_type='application/pdf')
     data['Content-Disposition'] = f'filename={timezone.now()}.pdf'

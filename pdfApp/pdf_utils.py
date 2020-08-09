@@ -4,10 +4,7 @@ import contextlib
 
 def MergePDFs():
         #Get paths of all the uploaded files.
-        paths = [file_obj.upload.path for file_obj in UploadData.objects.all()]
-        
-        print(f'Paths  ==== {paths}')
-        
+        paths = [file_obj.upload.path for file_obj in UploadData.objects.all()]    
 
         #Adding pages to the newly creatred pdf:
         with contextlib.ExitStack() as stack:
@@ -19,7 +16,6 @@ def MergePDFs():
                 pdfObj = PyPDF2.PdfFileReader(f)
                 for page_num in range(pdfObj.numPages):
                     pageObj = pdfObj.getPage(page_num)
-                    print(f'page obj ======== {pageObj}')
                     pdfWriter.addPage(pageObj)
             
             with open('../test.pdf','wb') as f:
