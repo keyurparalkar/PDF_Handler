@@ -1,11 +1,14 @@
+from django.core.files import File
 from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.views.generic.edit import FormView
 from django.utils import timezone
 from .forms import FileUploadform
 from .models import UploadData
+from .pdf_utils import MergePDFs
 import json
 import ast
+
 
 # Create your views here.
 def file_upload(request):
@@ -39,7 +42,16 @@ def file_download(request):
     query = UploadData.objects.all()
     print(query)
 
+    #Merge the uploaded pdfs
+    MergePDFs()
+
+    pdf = None
+    f = open('../test.pdf')
+    pdf = File(f)
+
     # data = ast.literal_eval(json.loads(request.session['data_chunks']))
-    # data = HttpResponse(data, content_type='application/pdf')
-    # data['Content-Disposition'] = f'filename={timezone.now()}.pdf'
-    return None
+    data = HttpResponse(pdf, content_type='application/pdf')
+    data['Content-Disposition'] = f'filename={timezone.now()}.pdf'
+    f.close()
+
+    return data

@@ -7,3 +7,6 @@ class UploadData(models.Model):
     """
     upload = models.FileField(upload_to='uploads/')
 
+
+
+
