@@ -13,21 +13,10 @@ def MergePDFs():
 
             files = [stack.enter_context(open(f_path, 'rb')) for f_path in paths]
             for f in files:
-                pdfObj = PyPDF2.PdfFileReader(f)
+                pdfObj = PyPDF2.PdfFileReader(f,strict=False)
                 for page_num in range(pdfObj.numPages):
                     pageObj = pdfObj.getPage(page_num)
                     pdfWriter.addPage(pageObj)
             
             with open('../test.pdf','wb') as f:
                 pdfWriter.write(f)
-
-        # for path in paths:
-        #     with open(path,'rb') as f:
-        #         pdfObj = PyPDF2.PdfFileReader(f)
-        #         for page_num in range(pdfObj.numPages):
-        #             pageObj = pdfObj.getPage(page_num)
-        #             print(f'page obj ======== {pageObj}')
-        #             pdfWriter.addPage(pageObj)
-        
-        # with open('../test.pdf','wb') as f:
-        #     pdfWriter.write(f)
