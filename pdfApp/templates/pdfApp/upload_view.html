@@ -26,12 +26,15 @@
 
             <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
-                {{ form.as_p }}
+                {{ form.as_table }}
                 <button type="submit" class="btn btn-outline-success"> Upload </button>
             </form>
 
-            {% if data_chunks %}
-                <button onclick="location.href={% url "file_download" %}" href="_" class="btn btn-outline-dark">Download</button>
+            {% if file_count %}
+                {% for i in file_count %}
+                    <p>{{ i }}</p>
+                {% endfor %}
+                <button onclick="location.href={% url "file_download" %}" href="_blank" class="btn btn-outline-dark">Download</button>
             {% endif %}
         </div>
 

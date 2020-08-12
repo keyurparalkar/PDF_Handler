@@ -21,7 +21,7 @@ def file_upload(request):
                 instance = UploadData(upload=file_data)
                 instance.save()
 
-            return render(request, 'pdfApp/upload_view.html',{'form':form,'data_chunks': UploadData.objects.count()})
+            return render(request, 'pdfApp/upload_view.html',{'form':form,'file_count': list(range(UploadData.objects.count()))})
     else:
         form = FileUploadform()
         if('data_chunks' in globals()):
