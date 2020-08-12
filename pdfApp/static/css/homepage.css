@@ -4,6 +4,9 @@
     align-items: center;
 }
 
+p.card-text{
+    font-size: 5px;
+}
 input#file_id > button {
     font-weight: bold;
 }

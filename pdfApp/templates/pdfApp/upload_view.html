@@ -30,9 +30,17 @@
                 <button type="submit" class="btn btn-outline-success"> Upload </button>
             </form>
 
-            {% if file_count %}
-                {% for i in file_count %}
-                    <p>{{ i }}</p>
+            {% if fnames %}
+                {% for i in fnames %}
+                    <div class="card" style="width: 18rem;">
+                        <div class="card-body">
+                            <h5 class="card-title"> Download </h5>
+                            <p class="card-text">
+                                File Name: {{ i }}
+                            </p>
+                        </div>
+                        
+                    </div>
                 {% endfor %}
                 <button onclick="location.href={% url "file_download" %}" href="_blank" class="btn btn-outline-dark">Download</button>
             {% endif %}

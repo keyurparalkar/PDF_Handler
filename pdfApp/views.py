@@ -20,8 +20,9 @@ def file_upload(request):
             for file_data in form_data:
                 instance = UploadData(upload=file_data)
                 instance.save()
-
-            return render(request, 'pdfApp/upload_view.html',{'form':form,'file_count': list(range(UploadData.objects.count()))})
+            
+            file_names = [fname.upload.name.split('uploads/')[-1] for fname in UploadData.objects.all()]
+            return render(request, 'pdfApp/upload_view.html',{'form':form,'fnames': file_names})
     else:
         form = FileUploadform()
         if('data_chunks' in globals()):
