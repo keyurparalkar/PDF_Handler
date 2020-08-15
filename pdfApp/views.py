@@ -13,6 +13,7 @@ import ast
 # Create your views here.
 def file_upload(request):
     if request.method == "POST":
+        print('Inside file_upload POST method ........')
         form = FileUploadform(request.POST, request.FILES)
         if form.is_valid():
             form_data = request.FILES.getlist('file')
@@ -24,22 +25,20 @@ def file_upload(request):
             return render(request, 'pdfApp/upload_view.html',{'form':form,'fnames_pk': UploadData.objects.all()})
     else:
         form = FileUploadform()
-        print("FILE ID = ",request.GET.get('file_id'))
-        if(request.GET.get('file_id') != None):
-            file_id = request.GET.get("file_id")
-            file_op = UploadData.objects.get(pk=file_id)
-            file_op.delete()
-            file_op.save()
-        else:
-            try: #fix the below lines of code: on refresh page.
-                if(UploadData.objects.count() > 0):
-                    entries = UploadData.objects.all()
-                    entries.delete()
-                    entires.save()
-            except:
-                print("Data Not found .....")
-
-        
+        print('Inside file_upload GET method ........')
+        # print("FILE ID = ",request.GET.get('file_id'))
+        # if(request.GET.get('file_id') != None):
+        #     file_id = request.GET.get("file_id")
+        #     file_op = UploadData.objects.get(pk=file_id)
+        #     file_op.delete()
+        #     file_op.save()
+        # else:
+        try: #fix the below lines of code: on refresh page.
+            if(UploadData.objects.count() > 0):
+                entries = UploadData.objects.all()
+                entries.delete()
+        except:
+            print("Data Not found .....")
 
         return render(request, 'pdfApp/upload_view.html',{'form':form, 'fnames_pk':False })
 
@@ -63,6 +62,11 @@ def file_download(request):
 
 
 def remove_upload(request,pk):
-    print(f"File ID = {pk}")
-    print(request)
+    print(f"File ID in remove_upload = {pk}")
+
+    file_id = request.GET.get("file_id", None)
+    file_op = UploadData.objects.get(pk=file_id)
+    print(file_op)
+    file_op.delete()
+
     return render(request,'pdfApp/upload_view.html')
