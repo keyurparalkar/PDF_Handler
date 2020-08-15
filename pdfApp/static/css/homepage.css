@@ -4,6 +4,14 @@
     align-items: center;
 }
 
+p.card-text{
+    font-size: 15px;
+}
+
+.fa-file-pdf{
+    font-size: xx-large;
+}
+
 input#file_id > button {
     font-weight: bold;
 }
