@@ -46,7 +46,7 @@
                         
                     </div>
                 {% endfor %}
-                <button onclick="location.href={% url "file_download" %}" href="_blank" class="btn btn-outline-dark">Download</button>
+                <button href="_blank" id="download" class="btn btn-outline-dark">Download</button>
             {% endif %}
         </div>
         <script>
@@ -56,12 +56,34 @@
 
                 $.ajax({
                     type:"GET",
-                    url:"/",
+                    url:"delete/"+id,
                     data:{
                         file_id:id
                     },
                     success: function(data){
                         $(card).remove()
+                    }
+                })
+            })
+
+            $(document).on('click','#download', function(){
+                $.ajax({
+                    type:"GET",
+                    url:"download/",
+                    xhrFields:{
+                        responseType: 'blob'
+                    },
+                    success:function(data){
+                        var a = document.createElement('a');
+                        var url = window.URL.createObjectURL(data);
+                        var time_now = new Date()
+                        a.href = url;
+                        a.download = 'file_'+time_now.getDay()+'/'+time_now.getMonth()+'/'+ time_now.getFullYear() + '.pdf';
+                        document.body.append(a);
+                        a.click();
+                        a.remove();
+                        window.URL.revokeObjectURL(url);
+                        console.log("Download successfull ...")
                     }
                 })
             })
