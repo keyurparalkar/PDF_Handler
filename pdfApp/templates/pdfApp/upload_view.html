@@ -6,7 +6,7 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 
         <!-- JS, Popper.js, and jQuery -->
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
@@ -30,15 +30,17 @@
                 {{ form.as_table }}
                 <button type="submit" class="btn btn-outline-success"> Upload </button>
             </form>
-
-            {% if fnames %}
-                {% for i in fnames %}
-                    <div class="card" style="width: 18rem;">
+            
+            {% if fnames_pk %}
+                {% for i in fnames_pk %}
+                    <div class="card" id="upload_card" style="width: 18rem;">
                         <div class="card-body">
                             <h5 class="card-title"> Upload </h5>
                             <p class="card-text">
-                                File Name: {{ i }}
-                                <i class="far fa-times-circle"></i>
+                                File Name: {{ i.upload.name }}
+                                Primary key = {{ i.pk }}
+                                <a class='btn btn-outline-dark' id="cancel_download" data-file-id={{ i.pk }}>X</a>
+                                <!-- <button class="btn btn-outline-dark" onclick="location.href={% url "remove_upload" pk=i.pk %}"> X </button> -->
                             </p>
                         </div>
                         
@@ -47,7 +49,23 @@
                 <button onclick="location.href={% url "file_download" %}" href="_blank" class="btn btn-outline-dark">Download</button>
             {% endif %}
         </div>
+        <script>
+            $(document).on('click','#cancel_download',function(){
+                var id = $(this).attr('data-file-id')
+                var card = $(this).closest("div#upload_card")
 
+                $.ajax({
+                    type:"GET",
+                    url:"/",
+                    data:{
+                        file_id:id
+                    },
+                    success: function(data){
+                        $(card).remove()
+                    }
+                })
+            })
+        </script>
     </body>
 
 </html>
