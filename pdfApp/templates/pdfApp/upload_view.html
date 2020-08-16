@@ -46,13 +46,18 @@
                         
                     </div>
                 {% endfor %}
-                <button href="_blank" id="download" class="btn btn-outline-dark">Download</button>
             {% endif %}
+            {% if fnames_pk %}
+                <button href="_blank" id="download" class="btn btn-outline-dark">Download</button>
+            {% else %}
+                <button href="_blank" id="download" class="btn btn-outline-dark" disabled="true">Download</button>
+            {% endif%}
         </div>
         <script>
             $(document).on('click','#cancel_download',function(){
                 var id = $(this).attr('data-file-id')
                 var card = $(this).closest("div#upload_card")
+                var card_count = $('.card').length -1 
 
                 $.ajax({
                     type:"GET",
@@ -62,6 +67,10 @@
                     },
                     success: function(data){
                         $(card).remove()
+                        console.log(card_count)
+                        if(card_count == 0){
+                            $("#download").prop('disabled',true)
+                        }
                     }
                 })
             })
