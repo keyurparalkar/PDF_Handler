@@ -24,6 +24,8 @@ def file_upload(request):
                 instance.save()
             
             return render(request, 'pdfApp/upload_view.html',{'form':form,'fnames_pk': UploadData.objects.all()})
+        else:
+            return render(request, 'pdfApp/upload_view.html',{'form':form, 'fnames_pk':False})
     else:
         form = FileUploadform()
 
