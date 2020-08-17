@@ -15,8 +15,8 @@ class pdfFileUpload(forms.FileField):
         if('application/pdf' not in mime_type):
             raise ValidationError('Unsupported File Type ..', code='unsupported_ftype')
 
-        #check if the combined upload file sizes should be less than 2 MB
+        #check if the combined upload file sizes should be less than 25 MB
         print(f"total uploaded file size == {sys.getsizeof(value.file.getvalue())}")
         total_file_size = sys.getsizeof(value.file.getvalue())
-        if(total_file_size >  2e6):
+        if(total_file_size >  2.5e7):
             raise ValidationError("Total file size should be less that 2 MB", code="filesize_limit_exceed")

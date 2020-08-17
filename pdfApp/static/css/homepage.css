@@ -4,6 +4,16 @@
     align-items: center;
 }
 
+div.all-cards-container{
+    display: flex;
+    flex-direction: column;
+}
+
+div.all-cards{
+    display: flex;
+    flex-direction: row;
+}
+
 p.card-text{
     font-size: 15px;
 }
@@ -12,6 +22,6 @@ p.card-text{
     font-size: xx-large;
 }
 
-input#file_id > button {
-    font-weight: bold;
+#download{
+    align-self: center;
 }

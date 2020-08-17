@@ -31,28 +31,36 @@
                 <button type="submit" class="btn btn-outline-success"> Upload </button>
             </form>
             
-            {% if fnames_pk %}
-                {% for i in fnames_pk %}
-                    <div class="card" id="upload_card" style="width: 18rem;">
-                        <div class="card-body">
-                            <h5 class="card-title"> Upload </h5>
-                            <p class="card-text">
-                                File Name: {{ i.upload.name }}
-                                Primary key = {{ i.pk }}
-                                <a class='btn btn-outline-dark' id="cancel_download" data-file-id={{ i.pk }}>X</a>
-                                <!-- <button class="btn btn-outline-dark" onclick="location.href={% url "remove_upload" pk=i.pk %}"> X </button> -->
-                            </p>
+
+            <div class="all-cards-container" style="display: flex; flex-direction: column;">
+                <div class="all-cards" style="display: flex; flex-direction: row;flex-wrap: wrap;">
+                    {% if fnames_pk %}
+                    {% for i in fnames_pk %}
+                        <div class="card" id="upload_card" style="width: 18rem;">
+                            <div class="card-body">
+                                <div class="upload-title" style="display: flex; flex-direction: row;justify-content: space-between;align-items: start;">
+                                    <h4 class="card-title"> Upload </h4>
+                                    <a class='btn btn-link' id="cancel_download" data-file-id={{ i.pk }}><i class="fa fa-trash" aria-hidden="true"></i></a>
+                                </div>
+                                <p class="card-text">
+                                    {{ i.upload.name }}
+                                </p>
+                            </div>
+                            
                         </div>
-                        
-                    </div>
-                {% endfor %}
-            {% endif %}
-            {% if fnames_pk %}
-                <button href="_blank" id="download" class="btn btn-outline-dark">Download</button>
-            {% else %}
-                <button href="_blank" id="download" class="btn btn-outline-dark" disabled="true">Download</button>
-            {% endif%}
+                    {% endfor %}
+                {% endif %}
+                </div>
+               
+                {% if fnames_pk %}
+                    <button href="_blank" id="download" style="align-self: center;" class="btn btn-outline-dark">Download</button>
+                {% else %}
+                    <button href="_blank" id="download" style="align-self: center;" class="btn btn-outline-dark" disabled="true">Download</button>
+                {% endif%}
+            </div>
+            
         </div>
+
         <script>
             $(document).on('click','#cancel_download',function(){
                 var id = $(this).attr('data-file-id')
