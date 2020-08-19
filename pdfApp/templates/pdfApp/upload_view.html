@@ -25,20 +25,32 @@
         <div class="container main_body">
             <h1> Please upload PDf/PDfs </h1>
 
-            <form method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                {{ form.as_table }}
-                <button type="submit" class="btn btn-outline-success"> Upload </button>
-            </form>
-            
+            <div class="card">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <label for="id_file" class="btn btn-outline-dark">
+                        <i class="fas fa-upload"></i> 
+                        Choose a file ..
+                            {{ form }}
+                     
+                    </label>
+                    <button type="submit" class="btn btn-outline-success"> Upload </button>
+                </form>
+                
+                {% if fnames_pk %}
+                        <button href="_blank" id="download" style="align-self: center;" class="btn btn-outline-dark">Download</button>
+                    {% else %}
+                        <button href="_blank" id="download" style="align-self: center;" class="btn btn-outline-dark" disabled="true">Download</button>
+                {% endif%}
+            </div>
 
             <div class="all-cards-container" style="display: flex; flex-direction: column;">
-                <div class="all-cards" style="display: flex; flex-direction: row;flex-wrap: wrap;">
+                <div class="all-cards" style="display: flex; flex-direction: row;flex-wrap: wrap; justify-content: center;">
                     {% if fnames_pk %}
                     {% for i in fnames_pk %}
                         <div class="card" id="upload_card" style="width: 18rem;">
                             <div class="card-body">
-                                <div class="upload-title" style="display: flex; flex-direction: row;justify-content: space-between;align-items: start;">
+                                <div class="upload-title" style="display: flex; flex-direction: row;justify-content: space-between;align-items: start; ">
                                     <h4 class="card-title"> Upload </h4>
                                     <a class='btn btn-link' id="cancel_download" data-file-id={{ i.pk }}><i class="fa fa-trash" aria-hidden="true"></i></a>
                                 </div>
@@ -52,11 +64,7 @@
                 {% endif %}
                 </div>
                
-                {% if fnames_pk %}
-                    <button href="_blank" id="download" style="align-self: center;" class="btn btn-outline-dark">Download</button>
-                {% else %}
-                    <button href="_blank" id="download" style="align-self: center;" class="btn btn-outline-dark" disabled="true">Download</button>
-                {% endif%}
+                
             </div>
             
         </div>
