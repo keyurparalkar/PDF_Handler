@@ -42,6 +42,16 @@
                     {% else %}
                         <button href="_blank" id="download" style="align-self: center;" class="btn btn-outline-dark" disabled="true">Download</button>
                 {% endif%}
+
+                {% if file_count %}
+                    <h3>
+                        {{ file_count }}
+                    </h3>
+                {% else %}
+                    <h3>
+                        0
+                        </h3>
+                {% endif %}
             </div>
 
             <div class="all-cards-container" style="display: flex; flex-direction: column;">

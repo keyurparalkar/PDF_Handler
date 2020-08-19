@@ -22,8 +22,10 @@ def file_upload(request):
             for file_data in form_data:
                 instance = UploadData(upload=file_data)
                 instance.save()
+
+            file_count = UploadData.objects.all().count()
             
-            return render(request, 'pdfApp/upload_view.html',{'form':form,'fnames_pk': UploadData.objects.all()})
+            return render(request, 'pdfApp/upload_view.html',{'form':form,'fnames_pk': UploadData.objects.all(),'file_count':file_count})
         else:
             return render(request, 'pdfApp/upload_view.html',{'form':form, 'fnames_pk':False})
     else:
