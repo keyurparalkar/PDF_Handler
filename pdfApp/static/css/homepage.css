@@ -1,7 +1,14 @@
-.main_body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.brand-title{
+    font-family: 'Pacifico', cursive;
+    font-size:40px;
+}
+
+.fa-file-pdf{
+    font-size:30px;
+}
+
+h1{
+    font-family: 'Quicksand', sans-serif;
 }
 
 div.all-cards-container{

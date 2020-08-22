@@ -7,6 +7,7 @@
 
         <!-- JS, Popper.js, and jQuery -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
+        <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@300&display=swap" rel="stylesheet"> 
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
@@ -16,66 +17,76 @@
 
     <body>
         <nav class="navbar navbar-light bg-light">
-            <a class="navbar-brand" href="#">
-                <i class="far fa-file-pdf"></i>
-              PDF_Handler
+            <a class="navbar-brand brand-title" href="/">
+                <!-- <i class="far fa-file-pdf"></i> -->
+              pdf_handler
             </a>
           </nav>
 
         <div class="container main_body">
-            <h1> Please upload PDf/PDfs </h1>
+            <div class="row">
+                <div class="col">
+                    <h1> Please upload PDf/PDfs </h1>
 
-            <div class="card">
-                <form method="post" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <label for="id_file" class="btn btn-outline-dark">
-                        <i class="fas fa-upload"></i> 
-                        Choose a file ..
-                            {{ form }}
-                     
-                    </label>
-                    <button type="submit" class="btn btn-outline-success"> Upload </button>
-                </form>
-                
-                {% if fnames_pk %}
-                        <button href="_blank" id="download" style="align-self: center;" class="btn btn-outline-dark">Download</button>
-                    {% else %}
-                        <button href="_blank" id="download" style="align-self: center;" class="btn btn-outline-dark" disabled="true">Download</button>
-                {% endif%}
-
-                {% if file_count %}
-                    <h3>
-                        {{ file_count }}
-                    </h3>
-                {% else %}
-                    <h3>
-                        0
-                        </h3>
-                {% endif %}
-            </div>
-
-            <div class="all-cards-container" style="display: flex; flex-direction: column;">
-                <div class="all-cards" style="display: flex; flex-direction: row;flex-wrap: wrap; justify-content: center;">
-                    {% if fnames_pk %}
-                    {% for i in fnames_pk %}
-                        <div class="card" id="upload_card" style="width: 18rem;">
-                            <div class="card-body">
-                                <div class="upload-title" style="display: flex; flex-direction: row;justify-content: space-between;align-items: start; ">
-                                    <h4 class="card-title"> Upload </h4>
-                                    <a class='btn btn-link' id="cancel_download" data-file-id={{ i.pk }}><i class="fa fa-trash" aria-hidden="true"></i></a>
-                                </div>
-                                <p class="card-text">
-                                    {{ i.upload.name }}
-                                </p>
-                            </div>
-                            
-                        </div>
-                    {% endfor %}
-                {% endif %}
+                    <div class="card">
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <label for="id_file" class="btn btn-outline-dark">
+                                <i class="fas fa-upload"></i> 
+                                Choose a file ..
+                                    {{ form }}
+                             
+                            </label>
+                            <button type="submit" class="btn btn-outline-success"> Upload </button>
+                        </form>
+                        
+                        {% if fnames_pk %}
+                                <button href="_blank" id="download" style="align-self: center;" class="btn btn-outline-dark">Download</button>
+                            {% else %}
+                                <button href="_blank" id="download" style="align-self: center;" class="btn btn-outline-dark" disabled="true">Download</button>
+                        {% endif%}
+        
+                        {% if file_count %}
+                            <h3>
+                                {{ file_count }}
+                            </h3>
+                        {% else %}
+                            <h3>
+                                0
+                                </h3>
+                        {% endif %}
+                    </div>
+        
                 </div>
-               
+
+                </div>
+                <div class="row">
+                    
+                    <div class="all-cards-container" style="display: flex; flex-direction: column;">
+                        <div class="all-cards" style="display: flex; flex-direction: row;flex-wrap: wrap; justify-content: center;">
+                            {% if fnames_pk %}
+                            {% for i in fnames_pk %}
+                                <div class="card" id="upload_card" style="width: 18rem;">
+                                    <div class="card-body">
+                                        <div class="upload-title" style="display: flex; flex-direction: row;justify-content: space-between;align-items: start; ">
+                                            <h4 class="card-title"> Upload </h4>
+                                            <a class='btn btn-link' id="cancel_download" data-file-id={{ i.pk }}><i class="fa fa-trash" aria-hidden="true"></i></a>
+                                        </div>
+                                        <p class="card-text">
+                                            {{ i.upload.name }}
+                                        </p>
+                                    </div>
+                                    
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                        </div>
+                       
+                        
+                    </div>
                 
             </div>
+         
             
         </div>
 
