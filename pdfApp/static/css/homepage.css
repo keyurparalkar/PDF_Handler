@@ -7,7 +7,7 @@
     font-size:30px;
 }
 
-h1{
+h1, h4{
     font-family: 'Quicksand', sans-serif;
 }
 
@@ -32,4 +32,8 @@ p.card-text{
 .col-1{
     max-width: 30px;
     /* border-right: 1px dashed black; */
+}
+
+.rounded-custom{
+    border-radius: 10px;
 }

@@ -18,7 +18,7 @@ def file_upload(request):
 
         if form.is_valid():
             form_data = request.FILES.getlist('file')
-
+        
             for file_data in form_data:
                 instance = UploadData(upload=file_data)
                 instance.save()

@@ -24,7 +24,7 @@
           </nav>
 
         <div class="container main_body">
-            <div class="row shadow-lg p-3 mb-5 bg-white rounded">
+            <div class="row shadow-lg p-3 mb-5 bg-white rounded-custom">
                 <div class="col">
                     <h1> Upload Files </h1>
 
@@ -48,20 +48,6 @@
                             </div>
                            
                         </form>
-                        
-                       
-                        <div class="spinner-grow">
-
-                        </div>
-                        {% if file_count %}
-                            <h3>
-                                {{ file_count }}
-                            </h3>
-                        {% else %}
-                            <h3>
-                                0
-                                </h3>
-                        {% endif %}
                     </div>
         
                 </div>
@@ -71,12 +57,12 @@
 
                 <div class="col">
                     
-                    <div class="all-cards-container" style="display: flex; flex-direction: column;">
+                    <!-- <div class="all-cards-container" style="display: flex; flex-direction: column;">
                         <div class="all-cards" style="display: flex; flex-direction: row;flex-wrap: wrap; justify-content: center;">
                             {% if fnames_pk %}
                             {% for i in fnames_pk %}
-                                <div class="card" id="upload_card" style="width: 18rem;">
-                                    <div class="card-body">
+                                <div class="card" id="upload_card">
+                                    <div class="card-body" style="width:31rem;">
                                         <div class="upload-title" style="display: flex; flex-direction: row;justify-content: space-between;align-items: start; ">
                                             <h4 class="card-title"> Upload </h4>
                                             <a class='btn btn-link' id="cancel_download" data-file-id={{ i.pk }}><i class="fa fa-trash" aria-hidden="true"></i></a>
@@ -92,7 +78,24 @@
                         </div>
                        
                         
-                    </div>
+                    </div> -->
+
+                    <ul class="list-group">
+                        {% if fnames_pk %}
+                            {% for i in fnames_pk %}
+                                
+                                <div class="list-group-item">
+                                    <div class="upload-title" style="display: flex; flex-direction: row;justify-content: space-between;align-items: start; ">
+                                        <i class="fas fa-file-alt" style="margin-right:10px; font-size:40px"></i>
+                                        <h4>Upload {{ i.upload.name }}</h4>
+                                        <a class='btn btn-link' id="cancel_download" data-file-id={{ i.pk }}><i class="fa fa-trash" aria-hidden="true"></i></a>
+                                    </div>
+                                </div>
+                                
+                                
+                            {% endfor %}
+                        {% endif %}
+                    </ul>
                 </div>
 
                 </div>
@@ -104,10 +107,30 @@
 
         <script type="text/javascript">
 
+            //Change the text inside the file count div:
+            // $('input[type=file]').change(function(){
+            //         var file_count = document.getElementById('id_file').files.length
+            //         $('.f_count').text(file_count)
+
+            //         //set the cookie:
+            //         document.cookie = "f_count="+file_count+";"
+            //     })
+
+            // Page load functions
             $(document).ready(function(){
                 var curr_height = window.screen.height;
+
+                //Change the height of the container
                 $('.container').height(curr_height/2);
                 $('.container').css({'display':'flex', 'flex-direction':'column', 'justify-content':'center'})
+
+                // cookie_val = document.cookie.split(";").find(row=>row.trim().startsWith('f_count')).split('=')[1]
+                // if(cookie_val == ""){       
+                //     $('.f_count').text(0)
+                // }else{
+                //     $('.f_count').text(cookie_val)
+                // }                
+                // document.cookie = " f_count=;"
             })
             
             $(document).on('click','#cancel_download',function(){
