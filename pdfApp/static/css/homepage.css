@@ -29,6 +29,7 @@ p.card-text{
     font-size: xx-large;
 }
 
-#download{
-    align-self: center;
+.col-1{
+    max-width: 30px;
+    /* border-right: 1px dashed black; */
 }

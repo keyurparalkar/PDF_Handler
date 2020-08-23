@@ -24,9 +24,9 @@
           </nav>
 
         <div class="container main_body">
-            <div class="row">
+            <div class="row shadow-lg p-3 mb-5 bg-white rounded">
                 <div class="col">
-                    <h1> Please upload PDf/PDfs </h1>
+                    <h1> Upload Files </h1>
 
                     <div class="card">
                         <form method="post" enctype="multipart/form-data">
@@ -37,15 +37,22 @@
                                     {{ form }}
                              
                             </label>
-                            <button type="submit" class="btn btn-outline-success"> Upload </button>
+
+                            <div class="btn-group">
+                                <button type="submit" class="btn btn-outline-success"> Upload </button>
+                                {% if fnames_pk %}
+                                    <button href="_blank" id="download"  class="btn btn-outline-dark">Download</button>
+                                {% else %}
+                                    <button href="_blank" id="download" class="btn btn-outline-dark" disabled="true">Download</button>
+                                {% endif%}
+                            </div>
+                           
                         </form>
                         
-                        {% if fnames_pk %}
-                                <button href="_blank" id="download" style="align-self: center;" class="btn btn-outline-dark">Download</button>
-                            {% else %}
-                                <button href="_blank" id="download" style="align-self: center;" class="btn btn-outline-dark" disabled="true">Download</button>
-                        {% endif%}
-        
+                       
+                        <div class="spinner-grow">
+
+                        </div>
                         {% if file_count %}
                             <h3>
                                 {{ file_count }}
@@ -58,9 +65,11 @@
                     </div>
         
                 </div>
+                <div class="col-1">
 
                 </div>
-                <div class="row">
+
+                <div class="col">
                     
                     <div class="all-cards-container" style="display: flex; flex-direction: column;">
                         <div class="all-cards" style="display: flex; flex-direction: row;flex-wrap: wrap; justify-content: center;">
@@ -84,13 +93,23 @@
                        
                         
                     </div>
+                </div>
+
+                </div>
                 
             </div>
          
             
         </div>
 
-        <script>
+        <script type="text/javascript">
+
+            $(document).ready(function(){
+                var curr_height = window.screen.height;
+                $('.container').height(curr_height/2);
+                $('.container').css({'display':'flex', 'flex-direction':'column', 'justify-content':'center'})
+            })
+            
             $(document).on('click','#cancel_download',function(){
                 var id = $(this).attr('data-file-id')
                 var card = $(this).closest("div#upload_card")
