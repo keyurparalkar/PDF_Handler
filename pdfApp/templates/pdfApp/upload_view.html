@@ -56,38 +56,14 @@
                 </div>
 
                 <div class="col">
-                    
-                    <!-- <div class="all-cards-container" style="display: flex; flex-direction: column;">
-                        <div class="all-cards" style="display: flex; flex-direction: row;flex-wrap: wrap; justify-content: center;">
-                            {% if fnames_pk %}
-                            {% for i in fnames_pk %}
-                                <div class="card" id="upload_card">
-                                    <div class="card-body" style="width:31rem;">
-                                        <div class="upload-title" style="display: flex; flex-direction: row;justify-content: space-between;align-items: start; ">
-                                            <h4 class="card-title"> Upload </h4>
-                                            <a class='btn btn-link' id="cancel_download" data-file-id={{ i.pk }}><i class="fa fa-trash" aria-hidden="true"></i></a>
-                                        </div>
-                                        <p class="card-text">
-                                            {{ i.upload.name }}
-                                        </p>
-                                    </div>
-                                    
-                                </div>
-                            {% endfor %}
-                        {% endif %}
-                        </div>
-                       
-                        
-                    </div> -->
-
                     <ul class="list-group">
                         {% if fnames_pk %}
                             {% for i in fnames_pk %}
                                 
-                                <div class="list-group-item">
+                                <div class="list-group-item" id="upload-card">
                                     <div class="upload-title" style="display: flex; flex-direction: row;justify-content: space-between;align-items: start; ">
                                         <i class="fas fa-file-alt" style="margin-right:10px; font-size:40px"></i>
-                                        <h4>Upload {{ i.upload.name }}</h4>
+                                        <h4>{{ i.upload.name }}</h4>
                                         <a class='btn btn-link' id="cancel_download" data-file-id={{ i.pk }}><i class="fa fa-trash" aria-hidden="true"></i></a>
                                     </div>
                                 </div>
@@ -107,14 +83,6 @@
 
         <script type="text/javascript">
 
-            //Change the text inside the file count div:
-            // $('input[type=file]').change(function(){
-            //         var file_count = document.getElementById('id_file').files.length
-            //         $('.f_count').text(file_count)
-
-            //         //set the cookie:
-            //         document.cookie = "f_count="+file_count+";"
-            //     })
 
             // Page load functions
             $(document).ready(function(){
@@ -123,21 +91,13 @@
                 //Change the height of the container
                 $('.container').height(curr_height/2);
                 $('.container').css({'display':'flex', 'flex-direction':'column', 'justify-content':'center'})
-
-                // cookie_val = document.cookie.split(";").find(row=>row.trim().startsWith('f_count')).split('=')[1]
-                // if(cookie_val == ""){       
-                //     $('.f_count').text(0)
-                // }else{
-                //     $('.f_count').text(cookie_val)
-                // }                
-                // document.cookie = " f_count=;"
             })
             
             $(document).on('click','#cancel_download',function(){
                 var id = $(this).attr('data-file-id')
-                var card = $(this).closest("div#upload_card")
-                var card_count = $('.card').length -1 
-
+                var card = $(this).closest("div#upload-card")
+                var card_count = $('.list-group-item').length -1 
+                
                 $.ajax({
                     type:"GET",
                     url:"delete/"+id,
