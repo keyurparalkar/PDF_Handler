@@ -7,6 +7,7 @@
 
         <!-- JS, Popper.js, and jQuery -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
+        <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@300&display=swap" rel="stylesheet"> 
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
@@ -16,49 +17,99 @@
 
     <body>
         <nav class="navbar navbar-light bg-light">
-            <a class="navbar-brand" href="#">
-                <i class="far fa-file-pdf"></i>
-              PDF_Handler
+            <a class="navbar-brand brand-title" href="/">
+              pdf_handler
             </a>
+            <div class="logos">
+                <a href="https://github.com/keyurparalkar/PDF_Handler" target="_blank" data-toggle="tooltip" data-placement="top" title="github: pdf_handler"> <i class="fab fa-github"></i></a>
+            </div>
           </nav>
 
         <div class="container main_body">
-            <h1> Please upload PDf/PDfs </h1>
+            <div class="row shadow-lg p-3 mb-5 bg-white rounded-custom">
+                <div class="col">
+                    <h1> Upload Files </h1>
 
-            <form method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                {{ form.as_table }}
-                <button type="submit" class="btn btn-outline-success"> Upload </button>
-            </form>
-            
-            {% if fnames_pk %}
-                {% for i in fnames_pk %}
-                    <div class="card" id="upload_card" style="width: 18rem;">
-                        <div class="card-body">
-                            <h5 class="card-title"> Upload </h5>
-                            <p class="card-text">
-                                File Name: {{ i.upload.name }}
-                                Primary key = {{ i.pk }}
-                                <a class='btn btn-outline-dark' id="cancel_download" data-file-id={{ i.pk }}>X</a>
-                                <!-- <button class="btn btn-outline-dark" onclick="location.href={% url "remove_upload" pk=i.pk %}"> X </button> -->
-                            </p>
-                        </div>
-                        
+                    <div>
+                        <form method="post" enctype="multipart/form-data">
+
+                            <div class="btn-group">
+                                {% csrf_token %}
+                                <label for="id_file" class="btn btn-outline-dark" style="margin-bottom:0px;">
+                                    <i class="fas fa-upload"></i> 
+                                    Choose a file ..
+                                        {{ form }}                                 
+                                </label>
+
+                                <button type="submit" class="btn btn-outline-success"> Upload </button>
+
+                                {% if fnames_pk %}
+                                    <button href="_blank" id="download"  class="btn btn-outline-dark">Download</button>
+                                {% else %}
+                                    <button href="_blank" id="download" class="btn btn-outline-dark" disabled="true">Download</button>
+                                {% endif%}
+                            </div>
+                           
+                        </form>
                     </div>
-                {% endfor %}
-            {% endif %}
-            {% if fnames_pk %}
-                <button href="_blank" id="download" class="btn btn-outline-dark">Download</button>
-            {% else %}
-                <button href="_blank" id="download" class="btn btn-outline-dark" disabled="true">Download</button>
-            {% endif%}
+        
+                </div>
+                <div class="col-1">
+
+                </div>
+
+                <div class="col">
+                    <ul class="list-group">
+                        {% if fnames_pk %}
+                            {% for i in fnames_pk %}
+                                
+                                <div class="list-group-item" id="upload-card">
+                                    <div class="upload-title" style="display: flex; flex-direction: row;justify-content: space-between;align-items: start; ">
+                                        <i class="fas fa-file-alt" style="margin-right:10px; font-size:40px"></i>
+                                        <h4>{{ i.upload.name }}</h4>
+                                        <a class='btn btn-link' id="cancel_download" data-file-id={{ i.pk }}><i class="fa fa-trash" aria-hidden="true"></i></a>
+                                    </div>
+                                </div>
+                                
+                                
+                            {% endfor %}
+                        {% endif %}
+                    </ul>
+                </div>
+
+                </div>
+                
+            </div>
+         
+            
         </div>
-        <script>
+
+        <footer class="container-fluid fixed-bottom">
+            <small>
+                <span id="cpr-text"> </span>
+                Curated with ❤️ by <a href="https://www.twitter.com/keurplkar" target="_blank" style="color:black">keyurparalkar</a>
+            </small>    
+        </footer>
+
+        <script type="text/javascript">
+
+
+            // Page load functions
+            $(document).ready(function(){
+                var curr_height = window.screen.height;
+                var year = new Date()
+                //Change the height of the container
+                $('.container').height(curr_height/2);
+                $('.container').css({'display':'flex', 'flex-direction':'column', 'justify-content':'center'})
+
+                $('#cpr-text').text('Copyright \u00A9'+ year.getFullYear() +'. All Rights Reserved. ')
+            })
+            
             $(document).on('click','#cancel_download',function(){
                 var id = $(this).attr('data-file-id')
-                var card = $(this).closest("div#upload_card")
-                var card_count = $('.card').length -1 
-
+                var card = $(this).closest("div#upload-card")
+                var card_count = $('.list-group-item').length -1 
+                
                 $.ajax({
                     type:"GET",
                     url:"delete/"+id,
