@@ -18,9 +18,11 @@
     <body>
         <nav class="navbar navbar-light bg-light">
             <a class="navbar-brand brand-title" href="/">
-                <!-- <i class="far fa-file-pdf"></i> -->
               pdf_handler
             </a>
+            <div class="logos">
+                <a href="https://github.com/keyurparalkar/PDF_Handler" target="_blank" data-toggle="tooltip" data-placement="top" title="github: pdf_handler"> <i class="fab fa-github"></i></a>
+            </div>
           </nav>
 
         <div class="container main_body">
@@ -28,18 +30,19 @@
                 <div class="col">
                     <h1> Upload Files </h1>
 
-                    <div class="card">
+                    <div>
                         <form method="post" enctype="multipart/form-data">
-                            {% csrf_token %}
-                            <label for="id_file" class="btn btn-outline-dark">
-                                <i class="fas fa-upload"></i> 
-                                Choose a file ..
-                                    {{ form }}
-                             
-                            </label>
 
                             <div class="btn-group">
+                                {% csrf_token %}
+                                <label for="id_file" class="btn btn-outline-dark" style="margin-bottom:0px;">
+                                    <i class="fas fa-upload"></i> 
+                                    Choose a file ..
+                                        {{ form }}                                 
+                                </label>
+
                                 <button type="submit" class="btn btn-outline-success"> Upload </button>
+
                                 {% if fnames_pk %}
                                     <button href="_blank" id="download"  class="btn btn-outline-dark">Download</button>
                                 {% else %}
@@ -81,16 +84,25 @@
             
         </div>
 
+        <footer class="container-fluid fixed-bottom">
+            <small>
+                <span id="cpr-text"> </span>
+                Curated with ❤️ by GitHub, Inc. and You!
+            </small>    
+        </footer>
+
         <script type="text/javascript">
 
 
             // Page load functions
             $(document).ready(function(){
                 var curr_height = window.screen.height;
-
+                var year = new Date()
                 //Change the height of the container
                 $('.container').height(curr_height/2);
                 $('.container').css({'display':'flex', 'flex-direction':'column', 'justify-content':'center'})
+
+                $('#cpr-text').text('Copyright \u00A9'+ year.getFullYear() +'. All Rights Reserved ')
             })
             
             $(document).on('click','#cancel_download',function(){

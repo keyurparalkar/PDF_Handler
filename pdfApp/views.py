@@ -15,12 +15,14 @@ def file_upload(request):
     if request.method == "POST":
         
         form = FileUploadform(request.POST, request.FILES)
-
+        
         if form.is_valid():
             form_data = request.FILES.getlist('file')
-        
+            
             for file_data in form_data:
+                print(file_data.chunks)
                 instance = UploadData(upload=file_data)
+                print(f"form_data === {instance}")
                 instance.save()
 
             file_count = UploadData.objects.all().count()

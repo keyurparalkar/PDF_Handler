@@ -37,3 +37,15 @@ p.card-text{
 .rounded-custom{
     border-radius: 10px;
 }
+
+footer{
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-bottom: 24px;
+}
+
+.logos > a{
+    color: black;
+    font-size:40px;
+}
